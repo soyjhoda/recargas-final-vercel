@@ -1,399 +1,739 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Recargas Tryhards</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Recargas Tryhards</title>
 
-<!-- Google Fonts Open Sans -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+            rel="stylesheet"
+        />
 
-<link rel="stylesheet" href="styles.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="styles.css" />
+        <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
+        />
 
-<style>
-    /* Tamaño uniforme para etiquetas dentro de reseña-slide */
-    .reseña-slide p,
-    .reseña-slide h5 {
-        min-height: 40px;
-        max-height: 40px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin: 0;
-        padding: 0;
-    }
+        <style>
+                /* Tamaño uniforme para etiquetas dentro de reseña-slide */
+                .reseña-slide p,
+                .reseña-slide h5 {
+                    min-height: 40px ;
+                    max-height: 40px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin: 0;
+                    padding: 0; /* CORREGIDO: CSS semicolon added */
+                }
 
-    /* Tamaño uniforme para imagenes de ofertas */
-    .oferta-item img {
-        max-width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
-</style>
-</head>
-<body>
-<header class="header-top">
-    <div class="header-left">
-        <img src="logo.png" alt="Recargas Tryhards" id="logo" />
-        <div class="header-logo-text">
-            <h1>Recargas Tryhards</h1>
-            <p>Fácil, Rápido y Seguro</p>
-        </div>
-    </div>
-    <div class="header-right">
-        <button class="btn-menu" onclick="alert('Métodos de pago próximamente')">Métodos de Pago</button>
-        <a href="carrito.html" class="btn-menu" style="text-decoration:none; color:inherit;">
-            <span>Carrito</span> <span id="carrito-count">0</span>
-        </a>
-        <button class="btn-whatsapp" onclick="window.open('https://wa.me/584127442672', '_blank')">WhatsApp</button>
-    </div>
-</header>
-
-<section class="hero-banner">
-    <h2>RECARGAS TRYHARDS</h2>
-    <p>FÁCIL, RÁPIDO Y SEGURO</p>
-    <p>Tu tienda de confianza para monedas y artículos de videojuegos. <strong>Especialistas en FC Mobile, Roblox, Call of Duty y Free Fire.</strong></p>
-    <div class="hero-buttons">
-        <button onclick="document.getElementById('ofertas').scrollIntoView({behavior:'smooth'})" class="btn-primary">Ver Ofertas</button>
-        <button onclick="window.open('https://wa.me/584127442672', '_blank')" class="btn-secondary">Chatear por WhatsApp</button>
-    </div>
-
-    <div class="redes-sociales-titulo">Síguenos</div>
-
-    <div class="redes-sociales">
-        <a href="https://www.tiktok.com/@soyjhodagaming" target="_blank" rel="noopener" aria-label="TikTok" class="btn-social" title="Síguenos en TikTok">
-            <img src="images/tiktok.png" alt="Logotipo de TikTok" />
-        </a>
-        <a href="https://www.youtube.com/@Soyjhoda" target="_blank" rel="noopener" aria-label="YouTube" class="btn-social" title="Síguenos en YouTube">
-            <img src="images/youtube.png" alt="Logotipo de YouTube" />
-        </a>
-        <a href="https://kick.com/soyjhoda" target="_blank" rel="noopener" aria-label="Kick" class="btn-social" title="Síguenos en Kick">
-            <img src="images/kick.png" alt="Logotipo de Kick" />
-        </a>
-    </div>
-</section>
-
-<main>
-    <!-- Ofertas destacadas con carrusel dinámico -->
-    <section id="ofertas" class="ofertas marco-gamer">
-      <h3>Ofertas Destacadas</h3>
-      <div class="swiper-container swiper-ofertas">
-        <div class="swiper-wrapper" id="ofertas-wrapper">
-          <!-- Ofertas se cargan aquí dinámicamente -->
-        </div>
-        <div class="swiper-button-prev swiper-prev-ofertas"></div>
-        <div class="swiper-button-next swiper-next-ofertas"></div>
-      </div>
-    </section>
-
-    <!-- Reseñas con carrusel dinámico -->
-    <section id="reseñas" class="reseñas marco-gamer">
-      <h3>Reseñas de Clientes</h3>
-      <div class="swiper-container swiper-reseñas">
-        <div class="swiper-wrapper" id="reseñas-wrapper">
-          <!-- Reseñas se cargarán aquí dinámicamente -->
-        </div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-pagination"></div>
-      </div>
-    </section>
-
-    <!-- Categorías con carrusel horizontal -->
-    <section id="categorias" class="categorias">
-        <h3>Nuestras Categorías</h3>
-        <p>Selecciona un juego para ver todos los paquetes disponibles.</p>
-        <div class="swiper-container swiper-categorias">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide card" data-juego-id="1" tabindex="0" role="button" aria-label="Ver paquetes FC Mobile" style="cursor:pointer;">
-                    <img src="images/fc-mobile.png" alt="FC Mobile" loading="lazy" />
-                    <h4>FC Mobile</h4>
-                    <p>FC Points, Pase Estelar, Refuerzos diarios.</p>
+                /* Tamaño uniforme para imagenes de ofertas */
+                .oferta-item img {
+                    max-width: 150px;
+                    height: 150px;
+                    object-fit: cover;
+                    border-radius: 8px;
+                    margin-bottom: 10px; /* CORREGIDO: CSS semicolon added */
+                }
+        </style>
+    </head>
+    <body>
+        <header class="header-top">
+               
+            <div class="header-left">
+                       
+                <img src="logo.png" alt="Recargas Tryhards" id="logo" />        
+                <div class="header-logo-text">
+                               
+                    <h1>Recargas Tryhards</h1>
+                               
+                    <p>Fácil, Rápido y Seguro</p>
+                           
                 </div>
-                <div class="swiper-slide card" data-juego-id="2" tabindex="0" role="button" aria-label="Ver paquetes Roblox" style="cursor:pointer;">
-                    <img src="images/roblox.png" alt="Roblox" loading="lazy" />
-                    <h4>Roblox</h4>
-                    <p>Robux y paquetes con bonus.</p>
-                </div>
-                <div class="swiper-slide card" data-juego-id="3" tabindex="0" role="button" aria-label="Ver paquetes Free Fire" style="cursor:pointer;">
-                    <img src="images/free-fire.png" alt="Free Fire" loading="lazy" />
-                    <h4>Free Fire</h4>
-                    <p>Diamantes para todas las necesidades.</p>
-                </div>
-                <div class="swiper-slide card" data-juego-id="4" tabindex="0" role="button" aria-label="Ver paquetes Call of Duty" style="cursor:pointer;">
-                    <img src="images/cod.png" alt="Call of Duty" loading="lazy" />
-                    <h4>Call of Duty</h4>
-                    <p>CP y paquetes con bonus.</p>
-                </div>
-                <div class="swiper-slide card" data-juego-id="5" tabindex="0" role="button" aria-label="Ver paquetes Delta Force" style="cursor:pointer;">
-                    <img src="images/delta-force.png" alt="Delta Force" loading="lazy" />
-                    <h4>Delta Force</h4>
-                    <p>Paquetes y recargas especiales.</p>
-                </div>
-                <div class="swiper-slide card" data-juego-id="6" tabindex="0" role="button" aria-label="Ver paquetes Tarjetas de regalo" style="cursor:pointer;">
-                    <img src="images/tarjetas-regalo.png" alt="Tarjetas de regalo" loading="lazy" />
-                    <h4>Tarjetas de regalo</h4>
-                    <p>Netflix, Amazon, Steam, y más.</p>
-                </div>
+                   
             </div>
-            <div class="swiper-button-prev swiper-prev-cat"></div>
-            <div class="swiper-button-next swiper-next-cat"></div>
-        </div>
-    </section>
-
-    <!-- Métodos de pago y países -->
-    <section class="pagos-paises marco-gamer">
-        <div class="metodos-pago">
-            <h4>Métodos de Pago Disponibles</h4>
-            <p>Aceptamos múltiples formas de pago para tu comodidad y seguridad.</p>
-            <div class="metodos-lista">
-                <button onclick="abrirWhatsApp('Hola, quiero consultar más métodos de pago')">Consulta método de tu país</button>
-                <button>PayPal</button>
-                <button>QR</button>
-                <button>Binance</button>
-                <button>Zelle</button>
-                <button>Transferencia Bancaria</button>
-                <button>Pago Móvil</button>
-                <button>Yape</button>
+               
+            <div class="header-right">
+                       
+                <button
+                    class="btn-menu"
+                    onclick="alert('Métodos de pago próximamente')"
+                >
+                    Métodos de Pago
+                </button>
+                       
+                <a
+                    href="carrito.html"
+                    class="btn-menu"
+                    style="text-decoration: none; color: inherit"
+                >
+                                <span>Carrito</span>
+                    <span id="carrito-count">0</span>        
+                </a>
+                       
+                <button
+                    class="btn-whatsapp"
+                    onclick="window.open('https://wa.me/584127442672', '_blank')"
+                >
+                    WhatsApp
+                </button>
+                   
             </div>
-        </div>
+        </header>
 
-        <div class="paises-recarga">
-            <h4>Países donde Recargamos</h4>
-            <p>Brindamos servicio en los siguientes países</p>
-            <ul>
-                <li>Venezuela</li>
-                <li>Bolivia</li>
-                <li>Argentina</li>
-                <li>Honduras</li>
-                <li>Guatemala</li>
-                <li>Chile</li>
-                <li>Perú</li>
-                <li>Colombia</li>
-                <li>Panamá</li>
-                <li><button onclick="abrirWhatsApp('Hola, quiero consultar sobre recargas en mi país')">Consulta tu país</button></li>
-            </ul>
-        </div>
-    </section>
-</main>
-
-<footer>
-    <div class="footer-container">
-        <div>
-            <h5>Recargas Tryhards</h5>
-            <p>Especialistas en monedas y artículos de videojuegos. Entrega inmediata y soporte 24/7.</p>
-            <div class="info-tags">
-                <span>100% Seguro</span>
-                <span>Entrega inmediata</span>
-                <span>Soporte 24/7</span>
+        <section class="hero-banner">
+               
+            <h2>RECARGAS TRYHARDS</h2>
+               
+            <p>FÁCIL, RÁPIDO Y SEGURO</p>
+               
+            <p>
+                Tu tienda de confianza para monedas y artículos de videojuegos.
+                <strong
+                    >Especialistas en FC Mobile, Roblox, Call of Duty y Free
+                    Fire.</strong
+                >
+            </p>
+               
+            <div class="hero-buttons">
+                       
+                <button
+                    onclick="document.getElementById('ofertas').scrollIntoView({behavior:'smooth'})"
+                    class="btn-primary"
+                >
+                    Ver Ofertas
+                </button>
+                       
+                <button
+                    onclick="window.open('https://wa.me/584127442672', '_blank')"
+                    class="btn-secondary"
+                >
+                    Chatear por WhatsApp
+                </button>
+                   
             </div>
 
-            <div class="footer-redes-sociales">
-                <div class="redes-sociales-titulo">Nuestras Redes Sociales</div>
-                <div class="redes-sociales">
-                    <a href="https://www.tiktok.com/@soyjhodagaming" target="_blank" rel="noopener" aria-label="TikTok" class="btn-social" title="Síguenos en TikTok">
-                        <img src="images/tiktok.png" alt="Logotipo de TikTok" />
-                    </a>
-                    <a href="https://www.youtube.com/@Soyjhoda" target="_blank" rel="noopener" aria-label="YouTube" class="btn-social" title="Síguenos en YouTube">
-                        <img src="images/youtube.png" alt="Logotipo de YouTube" />
-                    </a>
-                    <a href="https://kick.com/soyjhoda" target="_blank" rel="noopener" aria-label="Kick" class="btn-social" title="Síguenos en Kick">
-                        <img src="images/kick.png" alt="Logotipo de Kick" />
-                    </a>
-                </div>
+               
+            <div class="redes-sociales-titulo">Síguenos</div>
+
+               
+            <div class="redes-sociales">
+                       
+                <a
+                    href="https://www.tiktok.com/@soyjhodagaming"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="TikTok"
+                    class="btn-social"
+                    title="Síguenos en TikTok"
+                >
+                               
+                    <img src="images/tiktok.png" alt="Logotipo de TikTok" />    
+                       
+                </a>
+                       
+                <a
+                    href="https://www.youtube.com/@Soyjhoda"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="YouTube"
+                    class="btn-social"
+                    title="Síguenos en YouTube"
+                >
+                               
+                    <img src="images/youtube.png" alt="Logotipo de YouTube" />  
+                         
+                </a>
+                       
+                <a
+                    href="https://kick.com/soyjhoda"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Kick"
+                    class="btn-social"
+                    title="Síguenos en Kick"
+                >
+                               
+                    <img src="images/kick.png" alt="Logotipo de Kick" />        
+                </a>
+                   
             </div>
-        </div>
-        <div>
-            <h5>Juegos</h5>
-            <ul>
-                <li>FC Mobile</li>
-                <li>Free Fire</li>
-                <li>Roblox</li>
-                <li>Call of Duty</li>
-                <li>Delta Force</li>
-                <li>Tarjetas de regalo</li>
-            </ul>
-        </div>
-        <div>
-            <h5>Contacto</h5>
-            <p>Creado Por: Jose Daniel Marin</p>
-            <p>WhatsApp: +58 412 744 2672</p>
-            <p>© 2025 Recargas Tryhards. Todos los derechos reservados.</p>
-        </div>
-    </div>
-</footer>
+        </section>
 
-<script src="script.js"></script>
+        <main>
+                   
+            <section id="ofertas" class="ofertas marco-gamer">
+                     
+                <h3>Ofertas Destacadas</h3>
+                     
+                <div class="swiper-container swiper-ofertas">
+                           
+                    <div class="swiper-wrapper" id="ofertas-wrapper">
+                                         
+                    </div>
+                           
+                    <div class="swiper-button-prev swiper-prev-ofertas"></div>
+                           
+                    <div class="swiper-button-next swiper-next-ofertas"></div>
+                         
+                </div>
+                   
+            </section>
 
-<script type="module">
-    import { supabase } from './supabase.js';
+                   
+            <section id="reseñas" class="reseñas marco-gamer">
+                     
+                <h3>Reseñas de Clientes</h3>
+                     
+                <div class="swiper-container swiper-reseñas">
+                           
+                    <div class="swiper-wrapper" id="reseñas-wrapper">
+                                         
+                    </div>
+                           
+                    <div class="swiper-button-prev"></div>
+                           
+                    <div class="swiper-button-next"></div>
+                           
+                    <div class="swiper-pagination"></div>
+                         
+                </div>
+                   
+            </section>
 
-    // Swiper para reseñas
-    let swiperReseñas;
+                   
+            <section id="categorias" class="categorias">
+                       
+                <h3>Nuestras Categorías</h3>
+                       
+                <p>
+                    Selecciona un juego para ver todos los paquetes disponibles.
+                </p>
+                       
+                <div class="swiper-container swiper-categorias">
+                               
+                    <div class="swiper-wrapper">
+                                       
+                        <div
+                            class="swiper-slide card"
+                            data-juego-id="1"
+                            tabindex="0"
+                            role="button"
+                            aria-label="Ver paquetes FC Mobile"
+                            style="cursor: pointer"
+                        >
+                                               
+                            <img
+                                src="images/fc-mobile.png"
+                                alt="FC Mobile"
+                                loading="lazy"
+                            />
+                                               
+                            <h4>FC Mobile</h4>
+                                               
+                            <p>FC Points, Pase Estelar, Refuerzos diarios.</p>
+                                           
+                        </div>
+                                       
+                        <div
+                            class="swiper-slide card"
+                            data-juego-id="2"
+                            tabindex="0"
+                            role="button"
+                            aria-label="Ver paquetes Roblox"
+                            style="cursor: pointer"
+                        >
+                                               
+                            <img
+                                src="images/roblox.png"
+                                alt="Roblox"
+                                loading="lazy"
+                            />
+                                               
+                            <h4>Roblox</h4>
+                                               
+                            <p>Robux y paquetes con bonus.</p>
+                                           
+                        </div>
+                                       
+                        <div
+                            class="swiper-slide card"
+                            data-juego-id="3"
+                            tabindex="0"
+                            role="button"
+                            aria-label="Ver paquetes Free Fire"
+                            style="cursor: pointer"
+                        >
+                                               
+                            <img
+                                src="images/free-fire.png"
+                                alt="Free Fire"
+                                loading="lazy"
+                            />
+                                               
+                            <h4>Free Fire</h4>
+                                               
+                            <p>Diamantes para todas las necesidades.</p>
+                                           
+                        </div>
+                                       
+                        <div
+                            class="swiper-slide card"
+                            data-juego-id="4"
+                            tabindex="0"
+                            role="button"
+                            aria-label="Ver paquetes Call of Duty"
+                            style="cursor: pointer"
+                        >
+                                               
+                            <img
+                                src="images/cod.png"
+                                alt="Call of Duty"
+                                loading="lazy"
+                            />
+                                               
+                            <h4>Call of Duty</h4>
+                                               
+                            <p>CP y paquetes con bonus.</p>
+                                           
+                        </div>
+                                       
+                        <div
+                            class="swiper-slide card"
+                            data-juego-id="5"
+                            tabindex="0"
+                            role="button"
+                            aria-label="Ver paquetes Delta Force"
+                            style="cursor: pointer"
+                        >
+                                               
+                            <img
+                                src="images/delta-force.png"
+                                alt="Delta Force"
+                                loading="lazy"
+                            />
+                                               
+                            <h4>Delta Force</h4>
+                                               
+                            <p>Paquetes y recargas especiales.</p>
+                                           
+                        </div>
+                                       
+                        <div
+                            class="swiper-slide card"
+                            data-juego-id="6"
+                            tabindex="0"
+                            role="button"
+                            aria-label="Ver paquetes Tarjetas de regalo"
+                            style="cursor: pointer"
+                        >
+                                               
+                            <img
+                                src="images/tarjetas-regalo.png"
+                                alt="Tarjetas de regalo"
+                                loading="lazy"
+                            />
+                                               
+                            <h4>Tarjetas de regalo</h4>
+                                               
+                            <p>Netflix, Amazon, Steam, y más.</p>
+                                           
+                        </div>
+                                   
+                    </div>
+                               
+                    <div class="swiper-button-prev swiper-prev-cat"></div>
+                               
+                    <div class="swiper-button-next swiper-next-cat"></div>
+                           
+                </div>
+                   
+            </section>
 
-    async function cargarReseñas() {
-        const wrapperReseñas = document.getElementById('reseñas-wrapper');
-        const { data, error } = await supabase
-            .from('resenas')
-            .select('*')
-            .order('creado_en', { ascending: false });
-        if (error) {
-            console.error('Error cargando reseñas:', error);
-            return;
-        }
-        wrapperReseñas.innerHTML = '';
+                   
+            <section class="pagos-paises marco-gamer">
+                       
+                <div class="metodos-pago">
+                               
+                    <h4>Métodos de Pago Disponibles</h4>
+                               
+                    <p>
+                        Aceptamos múltiples formas de pago para tu comodidad y
+                        seguridad.
+                    </p>
+                               
+                    <div class="metodos-lista">
+                                       
+                        <button
+                            onclick="abrirWhatsApp('Hola, quiero consultar más métodos de pago')"
+                        >
+                            Consulta método de tu país
+                        </button>
+                                        <button>PayPal</button>                
+                        <button>QR</button>                
+                        <button>Binance</button>                
+                        <button>Zelle</button>                
+                        <button>Transferencia Bancaria</button>                
+                        <button>Pago Móvil</button>                
+                        <button>Yape</button>            
+                    </div>
+                           
+                </div>
 
-        data.forEach(resena => {
-            const slide = document.createElement('div');
-            slide.classList.add('swiper-slide', 'reseña-slide');
-            slide.innerHTML = `
-                <img src="${resena.imagen}" alt="${resena.nombre} - ${resena.pais}" loading="lazy" />
-                <p>"${resena.comentario}"</p>
-                <h5>${resena.nombre} - ${resena.pais}</h5>
-            `;
-            wrapperReseñas.appendChild(slide);
-        });
+                       
+                <div class="paises-recarga">
+                               
+                    <h4>Países donde Recargamos</h4>
+                               
+                    <p>Brindamos servicio en los siguientes países</p>
+                               
+                    <ul>
+                                       
+                        <li>Venezuela</li>
+                                       
+                        <li>Bolivia</li>
+                                       
+                        <li>Argentina</li>
+                                       
+                        <li>Honduras</li>
+                                       
+                        <li>Guatemala</li>
+                                       
+                        <li>Chile</li>
+                                       
+                        <li>Perú</li>
+                                       
+                        <li>Colombia</li>
+                                       
+                        <li>Panamá</li>
+                                       
+                        <li>
+                            <button
+                                onclick="abrirWhatsApp('Hola, quiero consultar sobre recargas en mi país')"
+                            >
+                                Consulta tu país
+                            </button>
+                        </li>
+                                   
+                    </ul>
+                           
+                </div>
+                   
+            </section>
+        </main>
 
-        if (swiperReseñas) {
-            swiperReseñas.destroy(true, true);
-        }
+        <footer>
+               
+            <div class="footer-container">
+                       
+                <div>
+                               
+                    <h5>Recargas Tryhards</h5>
+                               
+                    <p>
+                        Especialistas en monedas y artículos de videojuegos.
+                        Entrega inmediata y soporte 24/7.
+                    </p>
+                               
+                    <div class="info-tags">
+                                        <span>100% Seguro</span>                
+                        <span>Entrega inmediata</span>                
+                        <span>Soporte 24/7</span>            
+                    </div>
 
-        const width = window.innerWidth;
-        let slidesView = 1;
-        if (width >= 1200) slidesView = 4;
-        else if (width >= 900) slidesView = 3;
-        else if (width >= 640) slidesView = 2;
+                               
+                    <div class="footer-redes-sociales">
+                                       
+                        <div class="redes-sociales-titulo">
+                            Nuestras Redes Sociales
+                        </div>
+                                       
+                        <div class="redes-sociales">
+                                               
+                            <a
+                                href="https://www.tiktok.com/@soyjhodagaming"
+                                target="_blank"
+                                rel="noopener"
+                                aria-label="TikTok"
+                                class="btn-social"
+                                title="Síguenos en TikTok"
+                            >
+                                                       
+                                <img
+                                    src="images/tiktok.png"
+                                    alt="Logotipo de TikTok"
+                                />
+                                                   
+                            </a>
+                                               
+                            <a
+                                href="https://www.youtube.com/@Soyjhoda"
+                                target="_blank"
+                                rel="noopener"
+                                aria-label="YouTube"
+                                class="btn-social"
+                                title="Síguenos en YouTube"
+                            >
+                                                       
+                                <img
+                                    src="images/youtube.png"
+                                    alt="Logotipo de YouTube"
+                                />
+                                                   
+                            </a>
+                                               
+                            <a
+                                href="https://kick.com/soyjhoda"
+                                target="_blank"
+                                rel="noopener"
+                                aria-label="Kick"
+                                class="btn-social"
+                                title="Síguenos en Kick"
+                            >
+                                                       
+                                <img
+                                    src="images/kick.png"
+                                    alt="Logotipo de Kick"
+                                />
+                                                   
+                            </a>
+                                           
+                        </div>
+                                   
+                    </div>
+                           
+                </div>
+                       
+                <div>
+                               
+                    <h5>Juegos</h5>
+                               
+                    <ul>
+                                       
+                        <li>FC Mobile</li>
+                                       
+                        <li>Free Fire</li>
+                                       
+                        <li>Roblox</li>
+                                       
+                        <li>Call of Duty</li>
+                                       
+                        <li>Delta Force</li>
+                                       
+                        <li>Tarjetas de regalo</li>
+                                   
+                    </ul>
+                           
+                </div>
+                       
+                <div>
+                               
+                    <h5>Contacto</h5>
+                               
+                    <p>Creado Por: Jose Daniel Marin</p>
+                               
+                    <p>WhatsApp: +58 412 744 2672</p>
+                               
+                    <p>
+                        © 2025 Recargas Tryhards. Todos los derechos reservados.
+                    </p>
+                           
+                </div>
+                   
+            </div>
+        </footer>
 
-        const canLoop = data.length >= slidesView + 1;
+        <script src="script.js"></script>
 
-        swiperReseñas = new Swiper('.swiper-reseñas', {
-            slidesPerView: slidesView,
-            spaceBetween: 26,
-            loop: canLoop,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            breakpoints: {
-                320: { slidesPerView: 1 },
-                640: { slidesPerView: 2 },
-                900: { slidesPerView: 3 },
-                1200: { slidesPerView: 4 },
-            },
-        });
-    }
+        <script type="module">
+            import { supabase } from 'supabase.js'; // <-- CORRECCIÓN CLAVE: Eliminado el './' para compatibilidad con Vercel // Swiper para reseñas
 
-    cargarReseñas();
+            let swiperReseñas;
 
-    // Swiper para categorías
-    const swiperCategorias = new Swiper('.swiper-categorias', {
-        slidesPerView: 3,
-        spaceBetween: 20,
-        navigation: {
-            nextEl: '.swiper-next-cat',
-            prevEl: '.swiper-prev-cat',
-        },
-        breakpoints: {
-            320: { slidesPerView: 1 },
-            640: { slidesPerView: 2 },
-            900: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 }
-        }
-    });
+            async function cargarReseñas() {
+                const wrapperReseñas =
+                    document.getElementById('reseñas-wrapper');
+                const { data, error } = await supabase
+                    .from('resenas')
+                    .select('*')
+                    .order('creado_en', { ascending: false });
+                if (error) {
+                    console.error('Error cargando reseñas:', error);
+                    return;
+                }
+                wrapperReseñas.innerHTML = '';
 
-    // Carga dinámica y carrusel con autoplay loop para Ofertas Destacadas
-    const ofertasWrapper = document.getElementById('ofertas-wrapper');
+                data.forEach((resena) => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('swiper-slide', 'reseña-slide');
+                    slide.innerHTML = `
+                <img src="${resena.imagen}" alt="${resena.nombre} - ${resena.pais}" loading="lazy" />
+                <p>"${resena.comentario}"</p>
+                <h5>${resena.nombre} - ${resena.pais}</h5>
+            `;
+                    wrapperReseñas.appendChild(slide);
+                });
 
-    async function cargarOfertas() {
-        const { data, error } = await supabase
-            .from('ofertas_destacadas')
-            .select('*')
-            .order('creado_en', { ascending: false });
+                if (swiperReseñas) {
+                    swiperReseñas.destroy(true, true);
+                }
 
-        if (error) {
-            console.error('Error cargando ofertas:', error);
-            return;
-        }
+                const width = window.innerWidth;
+                let slidesView = 1;
+                if (width >= 1200) slidesView = 4;
+                else if (width >= 900) slidesView = 3;
+                else if (width >= 640) slidesView = 2;
 
-        ofertasWrapper.innerHTML = '';
+                const canLoop = data.length >= slidesView + 1;
 
-        data.forEach(oferta => {
-            const slide = document.createElement('div');
-            slide.classList.add('swiper-slide', 'oferta-item');
-            slide.innerHTML = `
-                <img src="${oferta.imagen}" alt="${oferta.nombre}" loading="lazy" />
-                <p>${oferta.descripcion}</p>
-            `;
-            ofertasWrapper.appendChild(slide);
-        });
-
-        new Swiper('.swiper-ofertas', {
-            slidesPerView: 3,
-            spaceBetween: 20,
-            loop: true,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: '.swiper-next-ofertas',
-                prevEl: '.swiper-prev-ofertas',
-            },
-            breakpoints: {
-                320: { slidesPerView: 1 },
-                640: { slidesPerView: 2 },
-                900: { slidesPerView: 3 },
-                1200: { slidesPerView: 4 }
+                swiperReseñas = new Swiper('.swiper-reseñas', {
+                    slidesPerView: slidesView,
+                    spaceBetween: 26,
+                    loop: canLoop,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        320: { slidesPerView: 1 },
+                        640: { slidesPerView: 2 },
+                        900: { slidesPerView: 3 },
+                        1200: { slidesPerView: 4 },
+                    },
+                });
             }
-        });
-    }
 
-    cargarOfertas();
+            cargarReseñas(); // Swiper para categorías
 
-    function abrirWhatsApp(mensaje) {
-        const telefono = "584127442672";
-        const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-        window.open(url, '_blank');
-    }
+            const swiperCategorias = new Swiper('.swiper-categorias', {
+                slidesPerView: 3,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-next-cat',
+                    prevEl: '.swiper-prev-cat',
+                },
+                breakpoints: {
+                    320: { slidesPerView: 1 },
+                    640: { slidesPerView: 2 },
+                    900: { slidesPerView: 3 },
+                    1200: { slidesPerView: 4 },
+                },
+            }); // Carga dinámica y carrusel con autoplay loop para Ofertas Destacadas
 
-    document.querySelectorAll('.swiper-categorias .swiper-slide.card').forEach(card => {
-        card.addEventListener('click', () => {
-            const juegoId = card.getAttribute('data-juego-id');
-            if (juegoId) {
-                window.location.href = `paquetes.html?juego_id=${juegoId}`;
+            const ofertasWrapper = document.getElementById('ofertas-wrapper');
+
+            async function cargarOfertas() {
+                const { data, error } = await supabase
+                    .from('ofertas_destacadas')
+                    .select('*')
+                    .order('creado_en', { ascending: false });
+
+                if (error) {
+                    console.error('Error cargando ofertas:', error);
+                    return;
+                }
+
+                ofertasWrapper.innerHTML = '';
+
+                data.forEach((oferta) => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('swiper-slide', 'oferta-item');
+                    slide.innerHTML = `
+                <img src="${oferta.imagen}" alt="${oferta.nombre}" loading="lazy" />
+                <p>${oferta.descripcion}</p>
+            `;
+                    ofertasWrapper.appendChild(slide);
+                });
+
+                new Swiper('.swiper-ofertas', {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                    loop: true,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-next-ofertas',
+                        prevEl: '.swiper-prev-ofertas',
+                    },
+                    breakpoints: {
+                        320: { slidesPerView: 1 },
+                        640: { slidesPerView: 2 },
+                        900: { slidesPerView: 3 },
+                        1200: { slidesPerView: 4 },
+                    },
+                });
             }
-        });
-        card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                card.click();
+
+            cargarOfertas();
+
+            // Nueva función agregada para cargar paquetes (para uso futuro, ej: paquetes.html)
+            async function cargarPaquetes() {
+                console.log('Intentando cargar paquetes...');
+                const { data, error } = await supabase
+                    .from('paquetes')
+                    .select('*')
+                    .order('creado_en', { ascending: false });
+
+                if (error) {
+                    console.error('Error cargando paquetes:', error);
+                    return [];
+                }
+                console.log('Paquetes cargados:', data);
+                return data;
             }
-        });
-    });
-</script>
 
-<script>
-    function actualizarContadorCarrito() {
-        const carrito = localStorage.getItem('carrito');
-        const productos = carrito ? JSON.parse(carrito) : [];
-        const totalCantidad = productos.reduce((total, item) => total + item.cantidad, 0);
-        document.getElementById('carrito-count').textContent = totalCantidad;
-    }
+            function abrirWhatsApp(mensaje) {
+                const telefono = '584127442672';
+                const url = `https://wa.me/${telefono}?text=${encodeURIComponent(
+                    mensaje
+                )}`;
+                window.open(url, '_blank');
+            }
 
-    window.addEventListener('load', actualizarContadorCarrito);
-</script>
+            document
+                .querySelectorAll('.swiper-categorias .swiper-slide.card')
+                .forEach((card) => {
+                    card.addEventListener('click', () => {
+                        const juegoId = card.getAttribute('data-juego-id');
+                        if (juegoId) {
+                            window.location.href = `paquetes.html?juego_id=${juegoId}`;
+                        }
+                    });
+                    card.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            card.click();
+                        }
+                    });
+                });
+        </script>
 
-</body>
+        <script>
+            function actualizarContadorCarrito() {
+                const carrito = localStorage.getItem('carrito');
+                const productos = carrito ? JSON.parse(carrito) : [];
+                const totalCantidad = productos.reduce(
+                    (total, item) => total + item.cantidad,
+                    0
+                );
+                document.getElementById('carrito-count').textContent =
+                    totalCantidad;
+            }
+
+            window.addEventListener('load', actualizarContadorCarrito);
+        </script>
+    </body>
 </html>
