@@ -1,0 +1,271 @@
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  background-color: #121214;
+  color: #fff;
+  margin: 0;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+header img#logo {
+  max-width: 140px;
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+/* HERO */
+.hero-banner {
+  background: url('images/hero.png') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  width: 100vw;
+  min-height: 350px;
+  max-width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  text-align: center;
+  color: white;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.85);
+  margin-bottom: 30px;
+  border-radius: 0 0 30px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-banner::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 9, 19, 0.62);
+  z-index: 0;
+  border-radius: 0 0 30px 30px;
+}
+
+.hero-contenido {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 45px 10px 25px 10px;
+}
+
+.hero-banner h2 {
+  font-size: 2.7rem;
+  margin: 0 0 16px 0;
+  letter-spacing: 3px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.hero-subtitulo {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #f0a040;
+  letter-spacing: 2px;
+}
+
+.hero-descripcion {
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.hero-botones {
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary, .btn-whatsapp {
+  padding: 13px 28px;
+  font-size: 15px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  margin: 0 6px;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: #e67e22;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #cf711d;
+}
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #fff;
+}
+.btn-whatsapp:hover {
+  background-color: #20b558;
+}
+
+/* Tabla del carrito */
+.carrito-main {
+  max-width: 1000px;
+  margin: 0 auto 40px auto;
+  padding: 0 10px;
+}
+
+h1 {
+  text-align: center;
+  color: #e67e22;
+  margin-bottom: 20px;
+}
+
+.tabla-carrito {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.tabla-carrito th,
+.tabla-carrito td {
+  border: 1px solid #444;
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.tabla-carrito th {
+  background-color: #222222;
+  color: #e67e22;
+  font-weight: 700;
+}
+
+.tabla-carrito td {
+  background-color: #292b2f;
+  color: #ddd;
+}
+
+.tabla-carrito input[type="number"] {
+  width: 70px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  text-align: center;
+  font-weight: 600;
+}
+
+.btn-eliminar {
+  background-color: #e02f2f;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  width: 28px;
+  height: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-eliminar:hover {
+  background-color: #a42121;
+}
+
+/* Contenedor de total */
+.total-container {
+  text-align: right;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: #f0a040;
+}
+
+/* Formulario */
+.form-compra {
+  max-width: 450px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-compra label {
+  font-weight: 600;
+  color: #e67e22;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.form-compra input, .form-compra select {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.form-compra input:focus, .form-compra select:focus {
+  outline: none;
+  box-shadow: 0 0 6px 2px #e67e22;
+}
+
+/* Botón completar compra */
+.btn-completar-compra {
+  background-color: #25D366;
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 18px;
+  border-radius: 35px;
+  width: 100%;
+  cursor: pointer;
+  color: white;
+  margin-top: 12px;
+  transition: background-color 0.3s;
+}
+
+.btn-completar-compra:hover {
+  background-color: #20b558;
+}
+
+/* Responsive móvil */
+@media (max-width: 900px) {
+  .tabla-carrito th, .tabla-carrito td {
+    padding: 10px 8px;
+  }
+
+  .form-compra {
+    max-width: 96vw;
+    margin: 0 auto;
+  }
+  .btn-completar-compra {
+    font-size: 1rem;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-banner {
+    min-height: 210px;
+    padding: 12px 5vw 10px 5vw;
+    border-radius: 0 0 12px 12px;
+  }
+  .hero-banner h2 {
+    font-size: 1.5rem;
+  }
+  .hero-subtitulo {
+    font-size: 1rem;
+  }
+  .hero-descripcion {
+    font-size: 0.9rem;
+  }
+  .btn-primary, .btn-whatsapp {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}

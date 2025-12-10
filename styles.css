@@ -1,0 +1,471 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    background-color: #121214;
+    color: #fff;
+    line-height: 1.6;
+    padding: 10px;
+}
+
+.header-top {
+    background: linear-gradient(90deg, #b93f0f, #3d0b02);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#logo {
+    width: 40px;
+    height: auto;
+}
+
+.header-logo-text h1 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.header-logo-text p {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-top: -5px;
+}
+
+.header-right button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    margin-left: 15px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.header-right .btn-whatsapp {
+    background-color: #25D366;
+    color: white;
+}
+
+.header-right button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hero-banner {
+    background: url('images/hero.png') no-repeat center center;
+    background-size: cover;
+    text-align: center;
+    padding: 80px 20px 60px 20px;
+    margin-bottom: 40px;
+    color: white;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.85);
+}
+
+.hero-banner h2 {
+    font-size: 48px;
+    margin: 0 0 15px 0;
+    letter-spacing: 3px;
+}
+
+.hero-banner p {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #e67e22;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #cf711d;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-secondary:hover {
+    background-color: white;
+    color: #b93f0f;
+}
+
+.redes-sociales-titulo {
+    color: #e67e22;
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.hero-banner .redes-sociales {
+    margin-top: 10px;
+    justify-content: center;
+    display: flex;
+    gap: 25px;
+}
+
+.btn-social img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.btn-social:hover img {
+    transform: scale(1.1);
+}
+
+.marco-gamer {
+    border: 3px double #e67e22;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 50px;
+    box-shadow:
+        0 0 10px #e67e22,
+        inset 0 0 15px #e67e22;
+    background: #1a1a1a;
+}
+
+.ofertas-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+}
+
+.oferta-item {
+    background: #222;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px #000;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.oferta-item img {
+    max-width: 150px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.reseñas .swiper-wrapper {
+    align-items: center;
+}
+
+/* Mejora profesional para tarjetas de reseñas Swiper */
+.reseña-slide {
+    background: #292b2f;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(230, 126, 34, 0.09);
+    text-align: center;
+    margin-right: 26px;
+    padding: 18px 12px 14px 12px;
+    min-width: 210px;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.2s;
+}
+
+.reseña-slide:last-child {
+    margin-right: 0;
+}
+
+.reseña-slide img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(230,126,34,0.08);
+    margin-bottom: 11px;
+    background: #222;
+    border: 2.5px solid #e67e22;
+}
+
+.reseña-slide p {
+    font-size: 1.03rem;
+    color: #ffd27b;
+    margin-bottom: 4px;
+    margin-top: 8px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.reseña-slide h5 {
+    font-size: 0.99rem;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+/* Responsive para reseñas en móviles */
+@media (max-width: 900px) {
+    .reseña-slide {
+        min-width: 97vw;
+        max-width: 99vw;
+        margin-right: 8px;
+        padding: 14px 6px 10px 6px;
+    }
+    .reseña-slide img {
+        width: 82px;
+        height: 82px;
+        margin-bottom: 8px;
+    }
+}
+
+.categorias {
+    max-width: 1100px;
+    margin: auto 0 50px 0;
+}
+
+.categorias h3 {
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.categorias p {
+    color: #cccccc;
+    margin-bottom: 20px;
+}
+
+.swiper-container.swiper-categorias {
+    padding-bottom: 50px;
+}
+
+.swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+.swiper-slide.card {
+    background: #222;
+    color: white;
+    border-radius: 10px;
+    width: 230px;
+    box-shadow: 0 0 10px #000;
+    cursor: pointer;
+    transition: 0.3s ease;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.swiper-slide.card:hover {
+    box-shadow: 0 0 20px #e67e22;
+}
+
+.card img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    height: 120px;
+    object-fit: contain;
+}
+
+.card h4 {
+    margin-bottom: 7px;
+    flex-grow: 1;
+}
+
+.pagos-paises {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 40px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.metodos-pago,
+.paises-recarga {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    flex-basis: 45%;
+    margin-bottom: 20px;
+}
+
+.metodos-pago h4,
+.paises-recarga h4 {
+    margin-bottom: 10px;
+}
+
+.metodos-lista button {
+    width: 100%;
+    margin: 7px 0;
+    padding: 10px;
+    background: #333;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.metodos-lista button:hover {
+    background: #e67e22;
+}
+
+.paises-recarga ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.paises-recarga li {
+    padding: 12px 10px;
+    border-bottom: 1px solid #111;
+    cursor: default;
+}
+
+.paises-recarga li button {
+    all: unset;
+    cursor: pointer;
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.paises-recarga li:last-child {
+    border: none;
+}
+
+.swiper-container {
+    width: 100%;
+    padding-bottom: 40px;
+}
+
+.swiper-slide {
+    background: #222;
+    border-radius: 10px;
+    padding: 30px 20px;
+    color: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.swiper-slide h5 {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* Footer con fondo imagen */
+footer {
+    position: relative;
+    background-image: url('images/footer.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 30px 20px;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    color: #bbb;
+    box-sizing: border-box;
+    z-index: 0;
+}
+
+/* Overlay oscuro para legibilidad del texto en footer */
+footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0.7);
+    z-index: -1;
+}
+
+/* Contenido del footer sobre el overlay */
+.footer-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+footer h5,
+footer p,
+footer ul,
+footer ul li,
+.info-tags span {
+    position: relative;
+    color: #fff;
+}
+
+/* Ajustes específicos footer compuestos */
+.footer-container > div:first-child {
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+}
+
+.footer-redes-sociales {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+/* Alineación redes sociales a la izquierda en footer */
+footer .redes-sociales {
+    justify-content: flex-start !important;
+}
+
+/* Ajustes móviles */
+@media (max-width: 600px) {
+    footer {
+        padding: 30px 10px;
+    }
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .footer-redes-sociales {
+        margin-left: 0;
+    }
+}

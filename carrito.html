@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carrito de Compras</title>
+  <link rel="stylesheet" href="carrito.css" />
+</head>
+<body>
+  <!-- HERO PRINCIPAL -->
+  <header>
+    <img src="logo.png" alt="Logo Agencia de Recargas" id="logo" />
+    <section class="hero-banner">
+      <div class="hero-contenido">
+        <h2>RECARGAS TRYHARDS</h2>
+        <span class="hero-subtitulo">TU CARRITO DE COMPRAS</span>
+        <p class="hero-descripcion">
+          Revisa tus paquetes antes de completar tu compra.<br>
+          ¡Gracias por elegirnos!
+        </p>
+        <div class="hero-botones">
+          <a href="index.html" class="btn-primary">Regresar al Inicio</a>
+          <a href="paquetes.html" class="btn-primary" style="margin-left:10px;">Volver a Paquetes</a>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <main id="carrito-main" class="carrito-main">
+    <h1>Mi Carrito</h1>
+
+    <table id="tabla-carrito" class="tabla-carrito">
+      <thead>
+        <tr>
+          <th>Paquete</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpo-carrito">
+        <!-- Filas dinámicas -->
+      </tbody>
+    </table>
+
+    <div class="total-container">
+      <h2>Total: $<span id="total-carrito">0</span></h2>
+    </div>
+
+    <form id="form-compra" class="form-compra">
+      <label for="nombre">Nombre Completo:</label>
+      <input type="text" id="nombre" required placeholder="Tu nombre" />
+
+      <label for="pais">País:</label>
+      <input type="text" id="pais" required placeholder="Tu país" />
+
+      <label for="metodo-pago">Método de Pago:</label>
+      <select id="metodo-pago" required>
+        <option value="" disabled selected>Seleccione método</option>
+        <option value="PayPal">PayPal</option>
+        <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+        <option value="Tarjeta de Crédito">Pago Movil</option>
+        <option value="Yape">Yape</option>
+        <option value="Efectivo">Zelle</option>
+        <option value="Otro Metodo">Otro Metodo</option>
+      </select>
+
+      <button type="submit" class="btn-whatsapp btn-completar-compra">
+        Completar compra aquí
+      </button>
+    </form>
+  </main>
+
+  <script>
+    // Obtener carrito de localStorage o vacío
+    function obtenerCarrito() {
+      const carrito = localStorage.getItem('carrito');
+      return carrito ? JSON.parse(carrito) : [];
+    }
+    // Guardar carrito en localStorage
+    function guardarCarrito(carrito) {
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+    }
+
+    // Actualizar tabla carrito en el DOM
+    function actualizarTablaCarrito() {
+      const carrito = obtenerCarrito();
+      const cuerpo = document.getElementById('cuerpo-carrito');
+      const totalSpan = document.getElementById('total-carrito');
+      cuerpo.innerHTML = '';
+      let total = 0;
+
+      carrito.forEach((item, index) => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+          <td>${item.nombre}</td>
+          <td>${item.descripcion}</td>
+          <td>$${item.precio.toFixed(2)}</td>
+          <td>
+            <input type="number" min="1" value="${item.cantidad}" data-index="${index}" class="cantidad-input" />
+          </td>
+          <td>$${subtotal.toFixed(2)}</td>
+          <td><button data-index="${index}" class="btn-eliminar">X</button></td>
+        `;
+
+        cuerpo.appendChild(tr);
+      });
+
+      totalSpan.textContent = total.toFixed(2);
+      agregarListenersInputs();
+      agregarListenersEliminar();
+    }
+
+    // Escuchar cambios en cantidad
+    function agregarListenersInputs() {
+      const inputs = document.querySelectorAll('.cantidad-input');
+      inputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+          const index = e.target.getAttribute('data-index');
+          let carrito = obtenerCarrito();
+          let value = parseInt(e.target.value);
+          if (isNaN(value) || value < 1) {
+            value = 1;
+            e.target.value = 1;
+          }
+          carrito[index].cantidad = value;
+          guardarCarrito(carrito);
+          actualizarTablaCarrito();
+        });
+      });
+    }
+
+    // Escuchar clicks para eliminar producto
+    function agregarListenersEliminar() {
+      const botones = document.querySelectorAll('.btn-eliminar');
+      botones.forEach(boton => {
+        boton.addEventListener('click', (e) => {
+          const index = e.target.getAttribute('data-index');
+          let carrito = obtenerCarrito();
+          carrito.splice(index, 1);
+          guardarCarrito(carrito);
+          actualizarTablaCarrito();
+        });
+      });
+    }
+
+    // Formulario enviar mensaje por WhatsApp
+    const form = document.getElementById('form-compra');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const pais = document.getElementById('pais').value.trim();
+      const metodoPago = document.getElementById('metodo-pago').value;
+      const carrito = obtenerCarrito();
+
+      if (!carrito.length) {
+        alert('Tu carrito está vacío.');
+        return;
+      }
+
+      let mensaje = `Hola, quiero completar mi compra.\n\nNombre: ${nombre}\nPaís: ${pais}\nMétodo de Pago: ${metodoPago}\n\nProductos:\n`;
+      carrito.forEach(item => {
+        mensaje += `- ${item.nombre} x${item.cantidad} (Precio unit: $${item.precio}) \n`;
+      });
+
+      const encodedMensaje = encodeURIComponent(mensaje);
+      const whatsappNumber = '584127442672'; // tu número WhatsApp sin + ni espacios ni guiones
+      const urlWhatsapp = `https://wa.me/${whatsappNumber}?text=${encodedMensaje}`;
+      window.open(urlWhatsapp, '_blank');
+    });
+
+    // Inicializar tabla al cargar página
+    window.onload = actualizarTablaCarrito;
+  </script>
+</body>
+</html>

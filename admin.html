@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Panel Admin - Gestión Completa</title>
+    <!-- Enlace correcto al nuevo admin.css en la misma carpeta -->
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        section { margin-bottom: 50px; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 8px; }
+        button { margin-left: 8px; }
+        label, input, textarea { display: block; margin-top: 8px; }
+        input, select, textarea { padding: 5px; width: 300px; max-width: 100%; }
+        textarea { resize: vertical; height: 60px; }
+        form { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; width: 350px;}
+        hr { margin: 40px 0; }
+    </style>
+</head>
+<body>
+
+    <h1>Panel Admin - Gestión Completa</h1>
+
+    <!-- Paquetes -->
+    <section id="seccion-paquetes">
+        <h2>Gestión de Paquetes</h2>
+        <form id="form-paquete">
+            <h3>Agregar o Editar Paquete</h3>
+            <input type="hidden" id="paquete-id" value="" />
+            <label for="juego_id">ID del Juego:</label>
+            <input type="number" id="juego_id" min="1" required />
+            <label for="nombre">Nombre del Paquete:</label>
+            <input type="text" id="nombre" required />
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" />
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" step="0.01" min="0" required />
+            <button type="submit">Guardar Paquete</button>
+            <button type="button" id="cancelar-edicion-paquete" style="display:none;">Cancelar Edición</button>
+        </form>
+        <ul id="lista-paquetes"></ul>
+    </section>
+
+    <hr>
+
+    <!-- Reseñas -->
+    <section id="seccion-resenas">
+        <h2>Gestión de Reseñas</h2>
+        <form id="form-resena">
+            <h3>Agregar o Editar Reseña</h3>
+            <input type="hidden" id="resena-id" value="" />
+            <label for="nombre-resena">Nombre:</label>
+            <input type="text" id="nombre-resena" required />
+            <label for="pais-resena">País:</label>
+            <input type="text" id="pais-resena" required />
+            <label for="imagen-resena">Imagen:</label>
+            <input type="file" id="file-resena" accept="image/*" />
+            <input type="url" id="imagen-resena" placeholder="URL de imagen..." readonly />
+            <label for="comentario-resena">Comentario:</label>
+            <textarea id="comentario-resena" required></textarea>
+            <button type="submit">Guardar Reseña</button>
+            <button type="button" id="cancelar-edicion-resena" style="display:none;">Cancelar Edición</button>
+        </form>
+        <ul id="lista-resenas"></ul>
+    </section>
+
+    <hr>
+
+    <!-- Ofertas Destacadas -->
+    <section id="seccion-ofertas">
+        <h2>Gestión de Ofertas Destacadas</h2>
+        <form id="form-oferta">
+            <h3>Agregar o Editar Oferta</h3>
+            <input type="hidden" id="oferta-id" value="" />
+            <label for="titulo-oferta">Título:</label>
+            <input type="text" id="titulo-oferta" required />
+            <label for="descripcion-oferta">Descripción:</label>
+            <textarea id="descripcion-oferta"></textarea>
+            <label for="imagen-oferta">Imagen:</label>
+            <input type="file" id="file-oferta" accept="image/*" />
+            <input type="url" id="imagen-oferta" placeholder="URL de imagen..." readonly />
+            <button type="submit">Guardar Oferta</button>
+            <button type="button" id="cancelar-edicion-oferta" style="display:none;">Cancelar Edición</button>
+        </form>
+        <ul id="lista-ofertas"></ul>
+    </section>
+
+    <script type="module">
+        import { supabase } from './supabase.js';
+
+        // ---------- PAQUETES ----------
+        const listaPaquetes = document.getElementById('lista-paquetes');
+        const formPaquete = document.getElementById('form-paquete');
+        const inputIdPaquete = document.getElementById('paquete-id');
+        const inputJuegoId = document.getElementById('juego_id');
+        const inputNombre = document.getElementById('nombre');
+        const inputDescripcion = document.getElementById('descripcion');
+        const inputPrecio = document.getElementById('precio');
+        const btnCancelarPaquete = document.getElementById('cancelar-edicion-paquete');
+        let editandoPaquete = false;
+
+        async function cargarPaquetes() {
+            const { data, error } = await supabase.from('paquetes').select('*').order('id', { ascending: true });
+            if (error) {
+                alert('Error al cargar paquetes');
+                console.error(error);
+                return;
+            }
+            listaPaquetes.innerHTML = '';
+            data.forEach(paquete => {
+                const li = document.createElement('li');
+                li.textContent = `${paquete.nombre} (Juego ID: ${paquete.juego_id}) - Precio: $${paquete.precio.toFixed(2)}`;
+                const btnEditar = document.createElement('button');
+                btnEditar.textContent = 'Editar';
+                btnEditar.onclick = () => editarPaquete(paquete);
+                const btnEliminar = document.createElement('button');
+                btnEliminar.textContent = 'Eliminar';
+                btnEliminar.onclick = () => eliminarPaquete(paquete.id);
+                li.appendChild(btnEditar);
+                li.appendChild(btnEliminar);
+                listaPaquetes.appendChild(li);
+            });
+        }
+
+        async function agregarPaquete(paquete) {
+            const { error } = await supabase.from('paquetes').insert([paquete]);
+            if (error) {
+                alert('Error al agregar paquete');
+                console.error(error);
+                return false;
+            }
+            return true;
+        }
+
+        async function actualizarPaquete(id, paquete) {
+            const { error } = await supabase.from('paquetes').update(paquete).eq('id', id);
+            if (error) {
+                alert('Error al actualizar paquete');
+                console.error(error);
+                return false;
+            }
+            return true;
+        }
+
+        async function eliminarPaquete(id) {
+            if (!confirm('¿Seguro quieres eliminar este paquete?')) return;
+            const { error } = await supabase.from('paquetes').delete().eq('id', id);
+            if (error) {
+                alert('Error al eliminar paquete');
+                console.error(error);
+                return;
+            }
+            cargarPaquetes();
+        }
+
+        function editarPaquete(paquete) {
+            editandoPaquete = true;
+            inputIdPaquete.value = paquete.id;
+            inputJuegoId.value = paquete.juego_id;
+            inputNombre.value = paquete.nombre;
+            inputDescripcion.value = paquete.descripcion || '';
+            inputPrecio.value = paquete.precio;
+            btnCancelarPaquete.style.display = 'inline';
+        }
+
+        function limpiarFormularioPaquete() {
+            editandoPaquete = false;
+            inputIdPaquete.value = '';
+            inputJuegoId.value = '';
+            inputNombre.value = '';
+            inputDescripcion.value = '';
+            inputPrecio.value = '';
+            btnCancelarPaquete.style.display = 'none';
+        }
+
+        formPaquete.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const paquete = {
+                juego_id: Number(inputJuegoId.value),
+                nombre: inputNombre.value.trim(),
+                descripcion: inputDescripcion.value.trim(),
+                precio: parseFloat(inputPrecio.value)
+            };
+            if (!paquete.nombre || !paquete.juego_id || isNaN(paquete.precio)) {
+                alert('Por favor llena todos los campos obligatorios correctamente.');
+                return;
+            }
+            if (editandoPaquete) {
+                const id = Number(inputIdPaquete.value);
+                const success = await actualizarPaquete(id, paquete);
+                if(success) {
+                    alert('Paquete actualizado');
+                    limpiarFormularioPaquete();
+                    cargarPaquetes();
+                }
+            } else {
+                const success = await agregarPaquete(paquete);
+                if(success) {
+                    alert('Paquete agregado');
+                    limpiarFormularioPaquete();
+                    cargarPaquetes();
+                }
+            }
+        });
+
+        btnCancelarPaquete.addEventListener('click', () => {
+            limpiarFormularioPaquete();
+        });
+
+        cargarPaquetes();
+
+        // ---------- Reseñas ----------
+        const listaResenas = document.getElementById('lista-resenas');
+        const formResena = document.getElementById('form-resena');
+        const inputIdResena = document.getElementById('resena-id');
+        const inputNombreResena = document.getElementById('nombre-resena');
+        const inputPaisResena = document.getElementById('pais-resena');
+        const inputImagenResena = document.getElementById('imagen-resena');
+        const inputComentarioResena = document.getElementById('comentario-resena');
+        const inputFileResena = document.getElementById('file-resena');
+        const btnCancelarResena = document.getElementById('cancelar-edicion-resena');
+        let editandoResena = false;
+
+        async function subirImagen(file) {
+            const filePath = `imagenes/${Date.now()}_${file.name}`;
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('imagenes').upload(filePath, file, {
+                cacheControl: '3600',
+                upsert: false
+            });
+            if (uploadError) {
+                alert('Error al subir la imagen: ' + uploadError.message);
+                throw uploadError;
+            }
+            const { data, error: urlError } = supabase.storage.from('imagenes').getPublicUrl(filePath);
+            if (urlError) {
+                alert('Error al obtener URL pública: ' + urlError.message);
+                throw urlError;
+            }
+            console.log('URL pública obtenida:', data.publicUrl);
+            return data.publicUrl;
+        }
+
+        inputFileResena.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            try {
+                const url = await subirImagen(file);
+                console.log('URL asignada al input:', url);
+                inputImagenResena.value = url;
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
+        async function cargarResenas() {
+            const { data, error } = await supabase.from('resenas').select('*').order('creado_en', { ascending: false });
+            if (error) {
+                alert('Error al cargar reseñas');
+                console.error(error);
+                return;
+            }
+            listaResenas.innerHTML = '';
+            data.forEach(resena => {
+                const li = document.createElement('li');
+                li.textContent = `${resena.nombre} - ${resena.pais} - "${resena.comentario}"`;
+                const btnEditar = document.createElement('button');
+                btnEditar.textContent = 'Editar';
+                btnEditar.onclick = () => editarResena(resena);
+                const btnEliminar = document.createElement('button');
+                btnEliminar.textContent = 'Eliminar';
+                btnEliminar.onclick = () => eliminarResena(resena.id);
+                li.appendChild(btnEditar);
+                li.appendChild(btnEliminar);
+                listaResenas.appendChild(li);
+            });
+        }
+
+        async function agregarResena(resena) {
+            const { error } = await supabase.from('resenas').insert([resena]);
+            if (error) {
+                alert('Error al agregar reseña');
+                console.error(error);
+                return false;
+            }
+            return true;
+        }
+
+        async function actualizarResena(id, resena) {
+            const { error } = await supabase.from('resenas').update(resena).eq('id', id);
+            if (error) {
+                alert('Error al actualizar reseña');
+                console.error(error);
+                return false;
+            }
+            return true;
+        }
+
+        async function eliminarResena(id) {
+            if (!confirm('¿Seguro quieres eliminar esta reseña?')) return;
+            const { error } = await supabase.from('resenas').delete().eq('id', id);
+            if (error) {
+                alert('Error al eliminar reseña');
+                console.error(error);
+                return;
+            }
+            cargarResenas();
+        }
+
+        function editarResena(resena) {
+            editandoResena = true;
+            inputIdResena.value = resena.id;
+            inputNombreResena.value = resena.nombre;
+            inputPaisResena.value = resena.pais;
+            inputImagenResena.value = resena.imagen || '';
+            inputComentarioResena.value = resena.comentario;
+            btnCancelarResena.style.display = 'inline';
+        }
+
+        function limpiarFormularioResena() {
+            editandoResena = false;
+            inputIdResena.value = '';
+            inputNombreResena.value = '';
+            inputPaisResena.value = '';
+            inputImagenResena.value = '';
+            inputComentarioResena.value = '';
+            btnCancelarResena.style.display = 'none';
+        }
+
+        formResena.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resena = {
+                nombre: inputNombreResena.value.trim(),
+                pais: inputPaisResena.value.trim(),
+                imagen: inputImagenResena.value.trim(),
+                comentario: inputComentarioResena.value.trim(),
+            };
+            if (!resena.nombre || !resena.pais || !resena.comentario) {
+                alert('Por favor llena todos los campos obligatorios correctamente.');
+                return;
+            }
+            if (editandoResena) {
+                const id = Number(inputIdResena.value);
+                const success = await actualizarResena(id, resena);
+                if(success) {
+                    alert('Reseña actualizada');
+                    limpiarFormularioResena();
+                    cargarResenas();
+                }
+            } else {
+                const success = await agregarResena(resena);
+                if(success) {
+                    alert('Reseña agregada');
+                    limpiarFormularioResena();
+                    cargarResenas();
+                }
+            }
+        });
+
+        btnCancelarResena.addEventListener('click', () => {
+            limpiarFormularioResena();
+        });
+
+        cargarResenas();
+
+        // ---------- OFERTAS ----------
+        const listaOfertas = document.getElementById('lista-ofertas');
+        const formOferta = document.getElementById('form-oferta');
+        const inputIdOferta = document.getElementById('oferta-id');
+        const inputTituloOferta = document.getElementById('titulo-oferta');
+        const inputDescripcionOferta = document.getElementById('descripcion-oferta');
+        const inputImagenOferta = document.getElementById('imagen-oferta');
+        const inputFileOferta = document.getElementById('file-oferta');
+        const btnCancelarOferta = document.getElementById('cancelar-edicion-oferta');
+        let editandoOferta = false;
+
+        inputFileOferta.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            try {
+                const url = await subirImagen(file);
+                inputImagenOferta.value = url;
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
+        async function cargarOfertas() {
+            const { data, error } = await supabase.from('ofertas_destacadas').select('*').order('creado_en', { ascending: false });
+            if (error) {
+                alert('Error al cargar ofertas');
+                console.error(error);
+                return;
+            }
+            listaOfertas.innerHTML = '';
+            data.forEach(oferta => {
+                const li = document.createElement('li');
+                li.textContent = `${oferta.titulo} - ${oferta.descripcion || ''}`;
+                const btnEditar = document.createElement('button');
+                btnEditar.textContent = 'Editar';
+                btnEditar.onclick = () => editarOferta(oferta);
+                const btnEliminar = document.createElement('button');
+                btnEliminar.textContent = 'Eliminar';
+                btnEliminar.onclick = () => eliminarOferta(oferta.id);
+                li.appendChild(btnEditar);
+                li.appendChild(btnEliminar);
+                listaOfertas.appendChild(li);
+            });
+        }
+
+        async function agregarOferta(oferta) {
+            const { error } = await supabase.from('ofertas_destacadas').insert([oferta]);
+            if (error) {
+                alert('Error al agregar oferta');
+                console.error(error);
+                return false;
+            }
+            return true;
+        }
+
+        async function actualizarOferta(id, oferta) {
+            const { error } = await supabase.from('ofertas_destacadas').update(oferta).eq('id', id);
+            if (error) {
+                alert('Error al actualizar oferta');
+                console.error(error);
+                return false;
+            }
+            return true;
+        }
+
+        async function eliminarOferta(id) {
+            if (!confirm('¿Seguro quieres eliminar esta oferta?')) return;
+            const { error } = await supabase.from('ofertas_destacadas').delete().eq('id', id);
+            if (error) {
+                alert('Error al eliminar oferta');
+                console.error(error);
+                return;
+            }
+            cargarOfertas();
+        }
+
+        function editarOferta(oferta) {
+            editandoOferta = true;
+            inputIdOferta.value = oferta.id;
+            inputTituloOferta.value = oferta.titulo;
+            inputDescripcionOferta.value = oferta.descripcion || '';
+            inputImagenOferta.value = oferta.imagen || '';
+            btnCancelarOferta.style.display = 'inline';
+        }
+
+        function limpiarFormularioOferta() {
+            editandoOferta = false;
+            inputIdOferta.value = '';
+            inputTituloOferta.value = '';
+            inputDescripcionOferta.value = '';
+            inputImagenOferta.value = '';
+            btnCancelarOferta.style.display = 'none';
+        }
+
+        formOferta.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const oferta = {
+                titulo: inputTituloOferta.value.trim(),
+                descripcion: inputDescripcionOferta.value.trim(),
+                imagen: inputImagenOferta.value.trim()
+            };
+            if (!oferta.titulo) {
+                alert('Por favor llena el título de la oferta.');
+                return;
+            }
+            if (editandoOferta) {
+                const id = Number(inputIdOferta.value);
+                const success = await actualizarOferta(id, oferta);
+                if(success) {
+                    alert('Oferta actualizada');
+                    limpiarFormularioOferta();
+                    cargarOfertas();
+                }
+            } else {
+                const success = await agregarOferta(oferta);
+                if(success) {
+                    alert('Oferta agregada');
+                    limpiarFormularioOferta();
+                    cargarOfertas();
+                }
+            }
+        });
+
+        btnCancelarOferta.addEventListener('click', () => {
+            limpiarFormularioOferta();
+        });
+
+        cargarOfertas();
+
+    </script>
+
+</body>
+</html>

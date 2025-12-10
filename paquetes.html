@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Paquetes del Juego</title>
+  <!-- Incluye el nuevo CSS visual -->
+  <link rel="stylesheet" href="paquetes.css" />
+</head>
+<body>
+  <!-- HERO PRINCIPAL -->
+  <header>
+    <img src="logo.png" alt="Logo Agencia de Recargas" id="logo" />
+    <section class="hero-banner">
+      <div class="hero-contenido">
+        <h2>RECARGAS TRYHARDS</h2>
+        <span class="hero-subtitulo">FÁCIL, RÁPIDO Y SEGURO</span>
+        <p class="hero-descripcion">
+          Tu tienda de confianza para monedas y artículos de videojuegos.<br>
+          <span style="font-weight:bold;">Especialistas en FC Mobile, Roblox, Call of Duty y Free Fire.</span>
+        </p>
+        <div class="hero-botones">
+          <a href="index.html" class="btn-primary">Regresar</a>
+          <a href="https://wa.me/584127442672" class="btn-whatsapp" target="_blank">WhatsApp</a>
+          <a href="carrito.html" class="btn-primary" style="margin-left:10px;">Ver Carrito</a>
+        </div>
+        <div class="redes-sociales-titulo">Síguenos</div>
+        <div class="redes-sociales">
+          <a href="https://www.tiktok.com/@soyjhodagaming" class="btn-social" target="_blank"><img src="images/tiktok.png" alt="TikTok"></a>
+          <a href="https://www.youtube.com/@Soyjhoda" class="btn-social" target="_blank"><img src="images/youtube.png" alt="YouTube"></a>
+          <a href="https://kick.com/soyjhoda" class="btn-social" target="_blank"><img src="images/kick.png" alt="Kick"></a>
+        </div>
+      </div>
+    </section>
+    <h1>Paquetes para el juego</h1>
+  </header>
+
+  <!-- Contenedor donde se muestran los paquetes -->
+  <div class="paquetes-container" id="paquetes-container"></div>
+
+  <script type="module">
+    import { supabase } from './supabase.js';
+
+    function obtenerParametro(nombre) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(nombre);
+    }
+
+    // Función para guardar carrito en localStorage
+    function guardarCarrito(carrito) {
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+    }
+
+    // Función para obtener carrito desde localStorage
+    function obtenerCarrito() {
+      const carrito = localStorage.getItem('carrito');
+      return carrito ? JSON.parse(carrito) : [];
+    }
+
+    // Funcion para agregar producto al carrito
+    function agregarAlCarrito(paquete) {
+      let carrito = obtenerCarrito();
+
+      // Verificar si el paquete ya está en el carrito
+      const index = carrito.findIndex(item => item.id === paquete.id);
+      if (index === -1) {
+        // No existe, agregar nuevo con cantidad 1
+        carrito.push({...paquete, cantidad: 1});
+      } else {
+        // Ya existe, aumentar cantidad
+        carrito[index].cantidad += 1;
+      }
+      guardarCarrito(carrito);
+      alert('Paquete agregado al carrito.');
+    }
+
+    async function cargarPaquetesParaJuego(juegoId) {
+      const contenedor = document.getElementById('paquetes-container');
+      if (!juegoId) {
+        contenedor.innerHTML = 'No se seleccionó ningún juego.';
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('paquetes')
+        .select('*')
+        .eq('juego_id', juegoId);
+
+      if (error) {
+        contenedor.innerHTML = 'Error al cargar paquetes.';
+        console.error(error);
+        return;
+      }
+
+      if (!data.length) {
+        contenedor.innerHTML = 'No se encontraron paquetes para este juego.';
+        return;
+      }
+
+      contenedor.innerHTML = '';
+      data.forEach(paq => {
+        const card = document.createElement('div');
+        card.className = 'paquete-card';
+        card.innerHTML = `
+          <h3>${paq.nombre}</h3>
+          <p>${paq.descripcion || ''}</p>
+          <div class="precio">Precio: $${paq.precio}</div>
+          <button class="btn-primary btn-agregar">Agregar al carrito</button>
+        `;
+        // Evento para el botón agregar
+        card.querySelector('.btn-agregar').addEventListener('click', () => {
+          agregarAlCarrito({
+            id: paq.id,
+            nombre: paq.nombre,
+            descripcion: paq.descripcion || '',
+            precio: paq.precio
+          });
+        });
+        contenedor.appendChild(card);
+      });
+    }
+
+    const juegoSeleccionado = obtenerParametro('juego_id');
+    cargarPaquetesParaJuego(juegoSeleccionado);
+  </script>
+</body>
+</html>

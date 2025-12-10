@@ -1,0 +1,225 @@
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  background-color: #121214;
+  color: #fff;
+  margin: 0;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+header img#logo {
+  max-width: 140px;
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+/* HERO - Banner de ancho completo responsivo */
+.hero-banner {
+  background: url('images/hero.png') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  width: 100vw;
+  min-height: 350px;
+  max-width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  text-align: center;
+  color: white;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.85);
+  margin-bottom: 30px;
+  border-radius: 0 0 30px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-banner::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 9, 19, 0.62);
+  z-index: 0;
+  border-radius: 0 0 30px 30px;
+}
+
+.hero-contenido {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 45px 10px 25px 10px;
+}
+
+.hero-banner h2 {
+  font-size: 2.7rem;
+  margin: 0 0 16px 0;
+  letter-spacing: 3px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.hero-subtitulo {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #f0a040;
+  letter-spacing: 2px;
+}
+
+.hero-descripcion {
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.hero-botones {
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary, .btn-whatsapp {
+  padding: 13px 28px;
+  font-size: 15px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  margin: 0 6px;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: #e67e22;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #cf711d;
+}
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #fff;
+}
+.btn-whatsapp:hover {
+  background-color: #20b558;
+}
+
+.redes-sociales-titulo {
+  font-weight: 700;
+  margin-bottom: 7px;
+  color: #e67e22;
+  font-size: 22px;
+  text-align: center;
+}
+.redes-sociales {
+  margin-top: 7px;
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+}
+.btn-social img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.btn-social:hover img {
+  transform: scale(1.11);
+}
+
+/* Paquetes en tarjetas */
+.paquetes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 28px 20px;
+  justify-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 10px 50px 10px;
+}
+
+.paquete-card {
+  background: #292b2f;
+  border-radius: 12px;
+  padding: 24px 20px 18px 20px;
+  box-shadow: 0 0 18px #e67e22, inset 0 0 15px #e67e22;
+  width: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.23s cubic-bezier(.44,.77,.34,1.11), box-shadow .18s;
+}
+
+.paquete-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 32px #e67e22, inset 0 0 33px #e67e22;
+}
+
+.paquete-card h3 {
+  margin-bottom: 13px;
+  font-size: 1.19rem;
+  color: #f0a040;
+}
+
+.paquete-card p {
+  font-size: 1rem;
+  min-height: 38px;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+.paquete-card .precio {
+  font-weight: 700;
+  font-size: 1.13rem;
+  color: #e67e22;
+  margin-top: auto;
+}
+
+/* Responsive móvil */
+@media (max-width: 1100px) {
+  .paquetes-container {
+    max-width: 98vw;
+  }
+}
+@media (max-width: 700px) {
+  .hero-banner {
+    min-height: 210px;
+    padding: 12px 0 0 0;
+    border-radius: 0 0 12px 12px;
+  }
+  .hero-banner h2 {
+    font-size: 1.25rem;
+  }
+  .hero-contenido {
+    padding: 12px 2vw 10px 2vw;
+    max-width: 97vw;
+  }
+  .redes-sociales-titulo {
+    font-size: 14px;
+  }
+  .redes-sociales {
+    gap: 10px;
+  }
+  .btn-social img { width: 32px; height: 32px; }
+  .paquetes-container {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    padding: 12px 4px 40px 4px;
+  }
+  .paquete-card {
+    width: 96%;
+    padding: 16px 8px 14px 8px;
+  }
+}
